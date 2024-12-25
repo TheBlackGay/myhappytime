@@ -25,15 +25,22 @@
 
         .container {
             width: 100%;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 10px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             animation: fadeIn 2s ease-in;
-            padding: 10px;
+            padding: 20px;
+            width: 100%;
+            max-width: 800px;
         }
 
         .header h1 {
@@ -58,11 +65,12 @@
             width: 90%;
             max-width: 800px;
             height: 60vh;
-            margin: 20px auto;
+            margin: 0 auto;
             border-radius: 20px;
             box-shadow: 0 0 30px rgba(255,255,255,0.2);
             background: rgba(0,0,0,0.3);
             overflow: hidden;
+            z-index: 2;
         }
 
         .photo-card {
@@ -486,6 +494,90 @@
             pointer-events: none;
             z-index: 1;
         }
+
+        /* 添加相册周边装饰 */
+        .gallery-wrapper {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .gallery-decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .gallery-decoration::before,
+        .gallery-decoration::after {
+            content: '♥';
+            position: absolute;
+            font-size: 2em;
+            color: #ff69b4;
+            animation: pulse 2s infinite;
+        }
+
+        .gallery-decoration::before {
+            left: 5%;
+            top: 50%;
+        }
+
+        .gallery-decoration::after {
+            right: 5%;
+            top: 50%;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* 添加装饰性文字 */
+        .decorative-text {
+            position: absolute;
+            font-family: 'Arial', cursive;
+            color: rgba(255, 255, 255, 0.6);
+            pointer-events: none;
+        }
+
+        .decorative-text.top-left {
+            top: 10%;
+            left: 5%;
+            transform: rotate(-15deg);
+        }
+
+        .decorative-text.top-right {
+            top: 10%;
+            right: 5%;
+            transform: rotate(15deg);
+        }
+
+        .decorative-text.bottom-left {
+            bottom: 10%;
+            left: 5%;
+            transform: rotate(15deg);
+        }
+
+        .decorative-text.bottom-right {
+            bottom: 10%;
+            right: 5%;
+            transform: rotate(-15deg);
+        }
+
+        /* 添加爱心装饰 */
+        .heart-decoration {
+            position: absolute;
+            font-size: 1.5em;
+            color: #ff69b4;
+            animation: float 3s ease-in-out infinite;
+            opacity: 0.6;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -535,44 +627,60 @@
             </div>
         </div>
 
-        <div class="photo-gallery" id="photoGallery">
-            <div class="photo-card active">
-                <img src="./pics/1.jpeg" alt="Christmas Memory 1">
-            </div>
-            <div class="photo-card">
-                <img src="./pics/2.jpeg" alt="Christmas Memory 2">
-            </div>
-            <div class="photo-card">
-                <img src="./pics/3.jpeg" alt="Christmas Memory 3">
-            </div>
-            <div class="photo-card">
-                <img src="./pics/4.jpeg" alt="Christmas Memory 4">
-            </div>
-            <div class="photo-card">
-                <img src="./pics/5.jpeg" alt="Christmas Memory 5">
-            </div>
-            <div class="photo-card">
-                <img src="./pics/6.jpeg" alt="Christmas Memory 6">
-            </div>
-            <div class="photo-card">
-                <img src="./pics/7.jpeg" alt="Christmas Memory 7">
-            </div>
-            <div class="photo-card">
-                <img src="./pics/8.jpeg" alt="Christmas Memory 8">
-            </div>
-            <div class="photo-card">
-                <img src="./pics/9.jpeg" alt="Christmas Memory 9">
-            </div>
-            <div class="photo-card">
-                <img src="./pics/10.jpeg" alt="Christmas Memory 10">
-            </div>
+        <div class="gallery-wrapper">
+            <div class="gallery-decoration"></div>
+            
+            <!-- 装饰性文字 -->
+            <div class="decorative-text top-left">Forever Love</div>
+            <div class="decorative-text top-right">Sweet Memories</div>
+            <div class="decorative-text bottom-left">Happy Together</div>
+            <div class="decorative-text bottom-right">Endless Joy</div>
 
-            <div class="nav-buttons">
-                <button class="nav-button" id="prevButton">❮</button>
-                <button class="nav-button" id="nextButton">❯</button>
-            </div>
+            <!-- 爱心装饰 -->
+            <div class="heart-decoration" style="left: 10%; top: 20%;">❤️</div>
+            <div class="heart-decoration" style="right: 10%; top: 30%;">❤️</div>
+            <div class="heart-decoration" style="left: 15%; bottom: 25%;">❤️</div>
+            <div class="heart-decoration" style="right: 15%; bottom: 35%;">❤️</div>
 
-            <div class="photo-counter">1 / 10</div>
+            <div class="photo-gallery" id="photoGallery">
+                <div class="photo-card active">
+                    <img src="./pics/1.jpeg" alt="Christmas Memory 1">
+                </div>
+                <div class="photo-card">
+                    <img src="./pics/2.jpeg" alt="Christmas Memory 2">
+                </div>
+                <div class="photo-card">
+                    <img src="./pics/3.jpeg" alt="Christmas Memory 3">
+                </div>
+                <div class="photo-card">
+                    <img src="./pics/4.jpeg" alt="Christmas Memory 4">
+                </div>
+                <div class="photo-card">
+                    <img src="./pics/5.jpeg" alt="Christmas Memory 5">
+                </div>
+                <div class="photo-card">
+                    <img src="./pics/6.jpeg" alt="Christmas Memory 6">
+                </div>
+                <div class="photo-card">
+                    <img src="./pics/7.jpeg" alt="Christmas Memory 7">
+                </div>
+                <div class="photo-card">
+                    <img src="./pics/8.jpeg" alt="Christmas Memory 8">
+                </div>
+                <div class="photo-card">
+                    <img src="./pics/9.jpeg" alt="Christmas Memory 9">
+                </div>
+                <div class="photo-card">
+                    <img src="./pics/10.jpeg" alt="Christmas Memory 10">
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="nav-button" id="prevButton">❮</button>
+                    <button class="nav-button" id="nextButton">❯</button>
+                </div>
+
+                <div class="photo-counter">1 / 10</div>
+            </div>
         </div>
     </div>
 
@@ -1010,7 +1118,60 @@
             for(let i = 0; i < 20; i++) {
                 setTimeout(createSnow, i * 300);
             }
+
+            // 添加装饰性文字动画
+            document.querySelectorAll('.decorative-text').forEach((text, index) => {
+                text.style.animationDelay = `${index * 0.5}s`;
+                text.style.animation = 'fadeInRotate 1.5s ease-out forwards';
+            });
+
+            // 随机移动爱心装饰
+            document.querySelectorAll('.heart-decoration').forEach(heart => {
+                setInterval(() => {
+                    const x = Math.random() * 10 - 5; // -5 到 5 的随机值
+                    const y = Math.random() * 10 - 5;
+                    heart.style.transform = `translate(${x}px, ${y}px)`;
+                }, 2000);
+            });
+
+            // 自动切换照片
+            let autoSlideInterval = setInterval(() => {
+                const nextButton = document.getElementById('nextButton');
+                if (nextButton) {
+                    nextButton.click();
+                }
+            }, 5000); // 每5秒切换一次
+
+            // 当用户手动操作时暂停自动切换
+            document.querySelector('.photo-gallery').addEventListener('mouseover', () => {
+                clearInterval(autoSlideInterval);
+            });
+
+            document.querySelector('.photo-gallery').addEventListener('mouseout', () => {
+                autoSlideInterval = setInterval(() => {
+                    const nextButton = document.getElementById('nextButton');
+                    if (nextButton) {
+                        nextButton.click();
+                    }
+                }, 5000);
+            });
         };
+
+        // 添加新的CSS动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInRotate {
+                from {
+                    opacity: 0;
+                    transform: rotate(0deg) scale(0.5);
+                }
+                to {
+                    opacity: 0.6;
+                    transform: rotate(-15deg) scale(1);
+                }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
