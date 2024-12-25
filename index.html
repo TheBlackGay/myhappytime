@@ -16,11 +16,55 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            background: linear-gradient(to bottom, #1a2a6c, #2a3a7c);
+            background: linear-gradient(
+                45deg,
+                #1a1c3d 0%,
+                #2d2f6f 25%,
+                #5b3c88 50%,
+                #8b4c8b 75%,
+                #c76b92 100%
+            );
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             font-family: 'Arial', sans-serif;
             color: #fff;
             overflow-x: hidden;
             touch-action: manipulation;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* 添加背景星星效果 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(white 1px, transparent 1px),
+                radial-gradient(white 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
+            animation: twinkleStars 4s linear infinite;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        @keyframes twinkleStars {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.5; }
         }
 
         .container {
@@ -67,10 +111,26 @@
             height: 60vh;
             margin: 0 auto;
             border-radius: 20px;
-            box-shadow: 0 0 30px rgba(255,255,255,0.2);
-            background: rgba(0,0,0,0.3);
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(255, 255, 255, 0.1),
+                inset 0 0 15px rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3);
             overflow: hidden;
             z-index: 2;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: transform 0.3s ease;
+        }
+
+        .photo-gallery:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(255, 255, 255, 0.15),
+                inset 0 0 20px rgba(255, 255, 255, 0.15);
         }
 
         .photo-card {
@@ -78,20 +138,30 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            transition: opacity 0.5s ease-in-out;
+            transition: all 0.5s ease-in-out;
             display: none;
+            transform-style: preserve-3d;
         }
 
         .photo-card.active {
             opacity: 1;
             display: block;
+            transform: translateZ(0) rotateY(0);
         }
 
         .photo-card img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .photo-card.active img:hover {
+            transform: scale(1.02);
+            filter: brightness(1.1);
         }
 
         /* 导航按钮样式优化 */
@@ -104,11 +174,12 @@
             justify-content: space-between;
             padding: 0 20px;
             pointer-events: none;
+            z-index: 3;
         }
 
         .nav-button {
-            background: rgba(255,255,255,0.3);
-            border: 2px solid rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             color: white;
             width: 50px;
             height: 50px;
@@ -121,16 +192,18 @@
             cursor: pointer;
             transition: all 0.3s ease;
             backdrop-filter: blur(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .nav-button:hover {
-            background: rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.25);
             transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
 
         .nav-button:active {
-            background: rgba(255,255,255,0.4);
             transform: scale(0.95);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
         }
 
         /* 装饰元素样式优化 */
@@ -273,14 +346,17 @@
         /* 照片计数器优化 */
         .photo-counter {
             position: absolute;
-            bottom: 10px;
+            bottom: 15px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.6);
             color: white;
-            padding: 5px 15px;
-            border-radius: 15px;
+            padding: 8px 20px;
+            border-radius: 20px;
             font-size: 0.9em;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
         @media (max-width: 768px) {
@@ -638,6 +714,179 @@
                 font-size: 3em;
             }
         }
+
+        /* 添加音乐控制按钮样式 */
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            cursor: pointer;
+            font-size: 2em;
+            animation: rotate 3s linear infinite;
+            transition: all 0.3s ease;
+        }
+
+        .music-control:hover {
+            transform: scale(1.2);
+        }
+
+        .music-control.paused {
+            animation-play-state: paused;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* 添加照片悬停效果 */
+        .photo-card img {
+            transition: transform 0.3s ease;
+        }
+
+        .photo-card.active img:hover {
+            transform: scale(1.05);
+        }
+
+        /* 添加爱心特效容器 */
+        .hearts-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* 添加点击波纹效果 */
+        .ripple {
+            position: fixed;
+            border-radius: 50%;
+            border: 2px solid #ff69b4;
+            animation: rippleEffect 1s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes rippleEffect {
+            from {
+                width: 0;
+                height: 0;
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+            to {
+                width: 100px;
+                height: 100px;
+                opacity: 0;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        /* 添加悬浮提示 */
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        /* 添加照片切换动画 */
+        .photo-card {
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        .photo-card.active {
+            transform: scale(1);
+        }
+
+        .photo-card.next {
+            transform: translateX(100%);
+        }
+
+        .photo-card.prev {
+            transform: translateX(-100%);
+        }
+
+        /* 添加倒计时样式 */
+        .countdown {
+            text-align: center;
+            margin: 30px 0;
+            padding: 15px;
+            font-size: 1.2em;
+            color: #ffd700;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+            animation: glow 2s ease-in-out infinite;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .countdown p {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .countdown span {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            min-width: 60px;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+        }
+
+        /* 优化恋爱计时器样式 */
+        .love-counter {
+            text-align: center;
+            margin: 30px 0;
+            padding: 15px;
+            font-size: 1.2em;
+            color: #ff69b4;
+            text-shadow: 0 0 5px rgba(255, 105, 180, 0.5);
+            animation: loveGlow 2s ease-in-out infinite;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .love-counter p {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .love-counter span {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 8px 15px;
+            background: rgba(255, 105, 180, 0.15);
+            border-radius: 8px;
+            min-width: 60px;
+            box-shadow: 0 0 10px rgba(255, 105, 180, 0.2);
+            font-size: 1.4em;
+            color: #ffd700;
+        }
+
+        .love-date {
+            font-size: 0.9em !important;
+            color: #ffd700;
+            margin-top: 10px !important;
+        }
+
+        @keyframes loveGlow {
+            0%, 100% { text-shadow: 0 0 5px rgba(255, 105, 180, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(255, 105, 180, 0.8); }
+        }
     </style>
 </head>
 <body>
@@ -685,6 +934,15 @@
                 <p class="typing-effect">我永远陪伴你</p>
                 <p class="typing-effect">让你充满甜蜜</p>
                 <p class="typing-effect last-wish">愿你永远幸福开心</p>
+            </div>
+            
+            <!-- 修改倒计时为恋爱计时 -->
+            <div class="countdown love-counter">
+                <p>我们已经在一起</p>
+                <div>
+                    <span id="days">00</span>天啦
+                </div>
+                <p class="love-date">Since 2024.11.17</p>
             </div>
         </div>
 
@@ -771,7 +1029,30 @@
         <span class="tree-decoration" style="bottom: 25%; right: 30%">🔔</span>
     </div>
 
+    <!-- 在body开始处添加音乐元素 -->
+    <audio id="bgMusic" loop>
+        <source src="./music/jingle-bells.mp3" type="audio/mp3">
+    </audio>
+    <div class="music-control" onclick="toggleMusic()">🎵</div>
+
+    <!-- 添加爱心特效容器 -->
+    <div class="hearts-container"></div>
+
     <script>
+        // 修改倒计时为恋爱计时
+        function updateLoveCounter() {
+            const startDate = new Date('2024-11-17T00:00:00');
+            const now = new Date();
+            const diff = now - startDate;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24)) + 1; // 加1天，包含起始日期
+            document.getElementById('days').textContent = String(Math.max(0, days));
+        }
+
+        // 立即更新一次
+        updateLoveCounter();
+        // 每天更新一次
+        setInterval(updateLoveCounter, 1000 * 60 * 60 * 24);
+
         // 等待DOM完全加载
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded');
@@ -1269,9 +1550,95 @@
                 if (tree.children.length > 10) { // 保持最多10个装饰品
                     tree.removeChild(tree.children[1]); // 移除最早添加的装饰品
                 }
-                
             }, 100);
         }
+
+        // 添加音乐控制函数
+        function toggleMusic() {
+            const music = document.getElementById('bgMusic');
+            const musicControl = document.querySelector('.music-control');
+            if (music.paused) {
+                music.play();
+                musicControl.classList.remove('paused');
+            } else {
+                music.pause();
+                musicControl.classList.add('paused');
+            }
+        }
+
+        // 添加点击波纹效果
+        document.addEventListener('click', function(e) {
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            ripple.style.left = e.clientX + 'px';
+            ripple.style.top = e.clientY + 'px';
+            document.body.appendChild(ripple);
+
+            setTimeout(() => {
+                ripple.remove();
+            }, 1000);
+        });
+
+        // 添加悬浮提示
+        function addTooltip(element, text) {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'tooltip';
+            tooltip.textContent = text;
+            
+            element.addEventListener('mouseover', () => {
+                document.body.appendChild(tooltip);
+                tooltip.style.opacity = '1';
+                
+                const rect = element.getBoundingClientRect();
+                tooltip.style.left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2) + 'px';
+                tooltip.style.top = rect.top - tooltip.offsetHeight - 10 + 'px';
+            });
+
+            element.addEventListener('mouseout', () => {
+                tooltip.style.opacity = '0';
+                setTimeout(() => {
+                    if (tooltip.parentNode) {
+                        tooltip.parentNode.removeChild(tooltip);
+                    }
+                }, 300);
+            });
+        }
+
+        // 为装饰元素添加提示
+        document.querySelectorAll('.decoration').forEach(elem => {
+            addTooltip(elem, '点击我试试看~');
+        });
+
+        // 优化照片切换动画
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            slides[currentSlide].classList.add(n > currentSlide ? 'prev' : 'next');
+            
+            currentSlide = (n + slides.length) % slides.length;
+            if (currentSlide < 0) currentSlide = slides.length - 1;
+            
+            slides[currentSlide].classList.remove('prev', 'next');
+            slides[currentSlide].classList.add('active');
+            
+            counter.textContent = `${currentSlide + 1} / ${slides.length}`;
+        }
+
+        // 添加随机漂浮爱心
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '100vh';
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            heart.style.opacity = Math.random() * 0.5 + 0.5;
+            heart.style.animation = `floatUp ${Math.random() * 3 + 2}s ease-in-out`;
+            document.querySelector('.hearts-container').appendChild(heart);
+
+            setTimeout(() => heart.remove(), 5000);
+        }
+
+        setInterval(createFloatingHeart, 2000);
     </script>
 </body>
 </html>
