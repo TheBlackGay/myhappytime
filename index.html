@@ -587,6 +587,57 @@
             text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
             animation-delay: 10.5s;
         }
+
+        /* 添加圣诞树样式 */
+        .christmas-tree {
+            position: fixed;
+            font-size: 5em;
+            z-index: 2;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 0, 0.3));
+        }
+
+        .christmas-tree:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 15px rgba(0, 255, 0, 0.5));
+        }
+
+        .christmas-tree.left {
+            left: 5%;
+            bottom: 10%;
+            animation: treeGlow 2s ease-in-out infinite;
+        }
+
+        .christmas-tree.right {
+            right: 5%;
+            bottom: 10%;
+            animation: treeGlow 2s ease-in-out infinite reverse;
+        }
+
+        @keyframes treeGlow {
+            0%, 100% {
+                filter: drop-shadow(0 0 10px rgba(0, 255, 0, 0.3));
+                transform: scale(1) rotate(-2deg);
+            }
+            50% {
+                filter: drop-shadow(0 0 20px rgba(0, 255, 0, 0.6));
+                transform: scale(1.05) rotate(2deg);
+            }
+        }
+
+        /* 圣诞树装饰品样式 */
+        .tree-decoration {
+            position: absolute;
+            font-size: 0.3em;
+            animation: twinkle 1.5s ease-in-out infinite;
+        }
+
+        @media (max-width: 768px) {
+            .christmas-tree {
+                font-size: 3em;
+            }
+        }
     </style>
 </head>
 <body>
@@ -706,6 +757,18 @@
     <div class="hidden-message" id="giftMessage">
         🌟 圣诞快乐 🎄<br>
         愿你永远幸福
+    </div>
+
+    <!-- 在body中添加圣诞树 -->
+    <div class="christmas-tree left" onclick="decorateTree(this)">🎄
+        <span class="tree-decoration" style="top: 20%; left: 30%">⭐</span>
+        <span class="tree-decoration" style="top: 40%; right: 20%">🎁</span>
+        <span class="tree-decoration" style="bottom: 30%; left: 25%">🔔</span>
+    </div>
+    <div class="christmas-tree right" onclick="decorateTree(this)">🎄
+        <span class="tree-decoration" style="top: 25%; right: 35%">⭐</span>
+        <span class="tree-decoration" style="top: 45%; left: 25%">🎁</span>
+        <span class="tree-decoration" style="bottom: 25%; right: 30%">🔔</span>
     </div>
 
     <script>
@@ -1182,6 +1245,32 @@
             }
         `;
         document.head.appendChild(style);
+
+        // 添加圣诞树互动效果
+        function decorateTree(tree) {
+            // 创建装饰品
+            const decorations = ['⭐', '🎁', '🔔', '🎈', '❄️', '🍬'];
+            const decoration = document.createElement('span');
+            decoration.className = 'tree-decoration';
+            decoration.textContent = decorations[Math.floor(Math.random() * decorations.length)];
+            decoration.style.position = 'absolute';
+            decoration.style.top = Math.random() * 80 + 10 + '%';
+            decoration.style.left = Math.random() * 60 + 20 + '%';
+            tree.appendChild(decoration);
+
+            // 创建闪光效果
+            tree.style.filter = 'brightness(1.5)';
+            setTimeout(() => {
+                tree.style.filter = '';
+            }, 500);
+
+            // 移除旧的装饰品
+            setTimeout(() => {
+                if (tree.children.length > 10) { // 保持最多10个装饰品
+                    tree.removeChild(tree.children[1]); // 移除最早添加的装饰品
+                }
+            }, 100);
+        }
     </script>
 </body>
 </html>
