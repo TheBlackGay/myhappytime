@@ -37,13 +37,14 @@
         }
 
         .header h1 {
-            font-size: 2em;
-            background: linear-gradient(45deg, #ff0000, #00ff00, #ff0000);
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #ff69b4, #ffd700, #ff69b4);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             animation: titleGradient 6s linear infinite;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
         }
 
         .date {
@@ -212,6 +213,119 @@
                 scale: 0.7;
             }
         }
+
+        .love-message {
+            margin: 20px auto;
+            max-width: 600px;
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            animation: fadeIn 2s ease-in;
+        }
+
+        .love-message p {
+            margin: 10px 0;
+            font-size: 1.2em;
+            color: #ffd700;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+        }
+
+        .typing-effect {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid #ffd700;
+            animation: typing 3.5s steps(40, end),
+                       blink-caret .75s step-end infinite;
+            animation-fill-mode: forwards;
+            opacity: 0;
+        }
+
+        .typing-effect:nth-child(2) {
+            animation-delay: 0s;
+        }
+
+        .typing-effect:nth-child(3) {
+            animation-delay: 3.5s;
+        }
+
+        .typing-effect:nth-child(4) {
+            animation-delay: 7s;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+                opacity: 1;
+            }
+            to {
+                width: 100%;
+                opacity: 1;
+            }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #ffd700; }
+        }
+
+        .floating-heart {
+            position: fixed;
+            font-size: 24px;
+            pointer-events: none;
+            animation: floatHeart 2s ease-in-out;
+            z-index: 9999;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: scale(0) translate(0, 0);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.5) translate(0, -50px);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1) translate(0, -100px);
+                opacity: 0;
+            }
+        }
+
+        /* 给隐藏消息添加更浪漫的样式 */
+        .hidden-message {
+            background: rgba(255, 192, 203, 0.95);
+            color: #d4145a;
+            font-size: 1.2em;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
+            border: 2px solid #ff69b4;
+        }
+
+        .special-name {
+            font-size: 2.8em;
+            margin: 15px 0;
+            background: linear-gradient(45deg, #ff1493, #ffd700);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: bold;
+            text-shadow: 0 0 15px rgba(255, 20, 147, 0.5);
+            animation: nameGlow 2s ease-in-out infinite;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        @keyframes nameGlow {
+            0%, 100% {
+                filter: drop-shadow(0 0 5px rgba(255, 20, 147, 0.5));
+            }
+            50% {
+                filter: drop-shadow(0 0 15px rgba(255, 20, 147, 0.8));
+            }
+        }
+
+        .typing-effect:nth-child(5) {
+            animation-delay: 10.5s;
+        }
     </style>
 </head>
 <body>
@@ -249,8 +363,16 @@
 
     <div class="container">
         <div class="header">
-            <h1>Merry Christmas</h1>
+            <h1>Merry Christmas My Love</h1>
+            <div class="special-name">魏亚蓉</div>
             <div class="date">2024年12月25日</div>
+            <div class="love-message">
+                <p>亲爱的亚蓉，圣诞快乐！</p>
+                <p class="typing-effect">愿你每一天都像圣诞节一样快乐，</p>
+                <p class="typing-effect">我会一直陪在你身边，</p>
+                <p class="typing-effect">让你的生活充满温暖与甜蜜 ❤️</p>
+                <p class="typing-effect">希望我的亚蓉天天开心，永远幸福！</p>
+            </div>
         </div>
 
         <div class="photo-gallery" id="photoGallery">
@@ -312,7 +434,7 @@
         // 等待DOM完全加载
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded');
-            
+
             // 初始化变量
             let currentSlide = 0;
             const slides = document.querySelectorAll('.photo-card');
@@ -320,7 +442,7 @@
             const prevButton = document.getElementById('prevButton');
             const nextButton = document.getElementById('nextButton');
             const draggableStar = document.querySelector('.draggable-star');
-            
+
             console.log('Found elements:', {
                 slidesCount: slides.length,
                 prevButton: prevButton,
@@ -383,7 +505,7 @@
             let touchStartX = 0;
             let touchEndX = 0;
             const photoGallery = document.getElementById('photoGallery');
-            
+
             if (photoGallery) {
                 photoGallery.addEventListener('touchstart', function(e) {
                     console.log('Touch start');
@@ -401,7 +523,7 @@
                 const swipeThreshold = 50;
                 const swipeDistance = touchEndX - touchStartX;
                 console.log('Swipe distance:', swipeDistance);
-                
+
                 if (touchEndX < touchStartX - swipeThreshold) {
                     nextSlide();
                 }
@@ -497,7 +619,7 @@
             snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
             snowflake.style.opacity = Math.random();
             snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
-            
+
             document.body.appendChild(snowflake);
 
             setTimeout(() => {
@@ -591,7 +713,7 @@
         function ringBell() {
             const bell = document.querySelector('.secret-bell');
             bell.classList.add('bell-ring');
-            
+
             // 播放铃声
             const audio = new Audio('data:audio/wav;base64,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qJrx4KOQjahZxWbcZgztj2c49nKmkId44S71j0c8eV9yDK6uPRzx5X18eDvjvQ6yKo9ZSS6l//8elePK/Lf//IInrOF/FvDoADYAGBMGb7FtErm5MXMlmPAJQVgWta7Zx2go+8xJ0UiCb8LHHdftWyLJE0QIAIsI+UbXu67dZMjmgDGCGl1H+vpF4NSDckSIkk7Vd+sxEhBQMRU8j/12UIRhzSaUdQ+rQU5kGeFxm+hb1oh6pWWmv3uvmReDl0UnvtapVaIzo1jZbf/pD6ElLqSX+rUmOQNpJFa/r+sa4e/pBlAABoAAAAA3CUgShLdGIxsY7AUABPRrgCABdDuQ5GC7DqPQCgbbJUAoRSUj+NIEig0YfyWUho1VBBBA//uQZB4ABZx5zfMakeAAAAmwAAAAF5F3P0w9GtAAACfAAAAAwLhMDmAYWMgVEG1U0FIGCBgXBXAtfMH10000EEEEEECUBYln03TTTdNBDZopopYvrTTdNa325mImNg3TTPV9q3pmY0xoO6bv3r00y+IDGid/9aaaZTGMuj9mpu9Mpio1dXrr5HERTZSmqU36A3CumzN/9Robv/Xx4v9ijkSRSNLQhAWumap82WRSBUqXStV/YcS+XVLnSS+WLDroqArFkMEsAS+eWmrUzrO0oEmE40RlMZ5+ODIkAyKAGUwZ3mVKmcamcJnMW26MRPgUw6j+LkhyHGVGYjSUUKNpuJUQoOIAyDvEyG8S5yfK6dhZc0Tx1KI/gviKL6qvvFs1+bWtaz58uUNnryq6kt5RzOCkPWlVqVX2a/EEBUdU1KrXLf40GoiiFXK///qpoiDXrOgqDR38JB0bw7SoL+ZB9o1RCkQjQ2CBYZKd/+VJxZRRZlqSkKiws0WFxUyCwsKiMy7hUVFhIaCrNQsKkTIsLivwKKigsj8XYlwt/WKi2N4d//uQRCSAAjURNIHpMZBGYiaQPSYyAAABLAAAAAAAACWAAAAApUF/Mg+0aohSIRobBAsMlO//Kk4soosy1JSFRYWaLC4qZBYWFRGZdwqKiwkNBVmoWFSJkWFxX4FFRQWR+LsS4W/rFRb/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////VEFHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAU291bmRib3kuZGUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMjAwNGh0dHA6Ly93d3cuc291bmRib3kuZGUAAAAAAAAAACU=');
             audio.play();
@@ -604,7 +726,7 @@
         // 添加触摸滑动支持
         let touchStartX = 0;
         let touchEndX = 0;
-        
+
         document.querySelector('.photo-gallery').addEventListener('touchstart', e => {
             touchStartX = e.changedTouches[0].screenX;
         }, false);
@@ -628,7 +750,7 @@
 
         // 优化拖拽星星的触摸支持
         const star = document.querySelector('.draggable-star');
-        
+
         star.addEventListener('touchstart', e => {
             e.preventDefault();
             const touch = e.touches[0];
@@ -661,6 +783,31 @@
             element.addEventListener('touchend', e => {
                 e.target.style.transform = '';
             });
+        });
+
+        // 在现有的script标签开始处添加新的函数
+        function createHeart(x, y) {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 2000);
+        }
+
+        // 添加点击事件监听器
+        document.addEventListener('click', (e) => {
+            createHeart(e.clientX, e.clientY);
+        });
+
+        // 添加触摸事件监听器
+        document.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            createHeart(touch.clientX, touch.clientY);
         });
     </script>
 </body>
