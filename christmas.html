@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Merry Christmas 2024</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #1a2a6c, #2a3a7c);
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease-in;
+            padding: 10px;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            background: linear-gradient(45deg, #ff0000, #00ff00, #ff0000);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: titleGradient 6s linear infinite;
+            margin-bottom: 10px;
+        }
+
+        .date {
+            font-size: 1em;
+            color: #ffd700;
+        }
+
+        /* 照片展示样式优化 */
+        .photo-gallery {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            height: 70vh;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+            touch-action: pan-y pinch-zoom;
+        }
+
+        .photo-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: none;
+        }
+
+        .photo-card.active {
+            opacity: 1;
+            display: block;
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: rgba(0,0,0,0.5);
+        }
+
+        /* 导航按钮样式优化 */
+        .nav-buttons {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+            pointer-events: none;
+        }
+
+        .nav-button {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: auto;
+            touch-action: manipulation;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background: rgba(255,255,255,0.4);
+            transform: scale(1.1);
+        }
+
+        .nav-button:active {
+            background: rgba(255,255,255,0.4);
+            transform: scale(0.95);
+        }
+
+        /* 装饰元素样式优化 */
+        .decoration {
+            position: fixed;
+            font-size: 1.5em;
+            z-index: 1000;
+        }
+
+        .secret-gift {
+            bottom: 20px;
+            right: 20px;
+            font-size: 2em;
+        }
+
+        .draggable-star {
+            top: 60px;
+            left: 20px;
+            font-size: 1.5em;
+            touch-action: none;
+        }
+
+        .secret-santa {
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2em;
+        }
+
+        .magic-snow {
+            top: 20px;
+            right: 20px;
+            font-size: 1.5em;
+        }
+
+        .candy-cane {
+            left: 20px;
+            top: 40%;
+            font-size: 1.5em;
+        }
+
+        .secret-bell {
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5em;
+        }
+
+        /* 消息框样式优化 */
+        .hidden-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 1001;
+            text-align: center;
+            color: #333;
+            font-size: 1em;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        /* 照片计数器优化 */
+        .photo-counter {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .snowflake {
+                font-size: 0.8em;
+            }
+
+            .firework {
+                transform-origin: center;
+                scale: 0.7;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 圣诞装饰 -->
+    <div class="decoration holly">🎄</div>
+    <div class="decoration bell">🔔</div>
+    <div class="decoration gift">🎁</div>
+    <div class="decoration star">⭐</div>
+    <div class="decoration candy">🍬</div>
+
+    <!-- 圣诞彩灯 -->
+    <div class="christmas-lights">
+        <div class="light">💡</div>
+        <div class="light">💡</div>
+        <div class="light">💡</div>
+        <div class="light">💡</div>
+        <div class="light">💡</div>
+        <div class="light">💡</div>
+        <div class="light">💡</div>
+        <div class="light">💡</div>
+    </div>
+
+    <!-- 侧边装饰 -->
+    <div class="side-decorations left">
+        <span>🎅</span>
+        <span>🦌</span>
+        <span>🎄</span>
+    </div>
+
+    <div class="side-decorations right">
+        <span>🎁</span>
+        <span>⛄</span>
+        <span>🔔</span>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Merry Christmas</h1>
+            <div class="date">2024年12月25日</div>
+        </div>
+
+        <div class="photo-gallery" id="photoGallery">
+            <div class="photo-card active">
+                <img src="https://raw.githubusercontent.com/TheBlackGay/myhappytime/main/pics/1.jpeg" alt="Christmas Memory 1">
+            </div>
+            <div class="photo-card">
+                <img src="https://raw.githubusercontent.com/TheBlackGay/myhappytime/main/pics/2.jpeg" alt="Christmas Memory 2">
+            </div>
+            <div class="photo-card">
+                <img src="https://raw.githubusercontent.com/TheBlackGay/myhappytime/main/pics/3.jpeg" alt="Christmas Memory 3">
+            </div>
+            <div class="photo-card">
+                <img src="https://raw.githubusercontent.com/TheBlackGay/myhappytime/main/pics/4.jpeg" alt="Christmas Memory 4">
+            </div>
+            <div class="photo-card">
+                <img src="https://raw.githubusercontent.com/TheBlackGay/myhappytime/main/pics/5.jpeg" alt="Christmas Memory 5">
+            </div>
+            <div class="photo-card">
+                <img src="https://raw.githubusercontent.com/TheBlackGay/myhappytime/main/pics/6.jpeg" alt="Christmas Memory 6">
+            </div>
+            <div class="photo-card">
+                <img src="https://raw.githubusercontent.com/TheBlackGay/myhappytime/main/pics/7.jpeg" alt="Christmas Memory 7">
+            </div>
+            <div class="photo-card">
+                <img src="https://raw.githubusercontent.com/TheBlackGay/myhappytime/main/pics/8.jpeg" alt="Christmas Memory 8">
+            </div>
+            <div class="photo-card">
+                <img src="https://raw.githubusercontent.com/TheBlackGay/myhappytime/main/pics/9.jpeg" alt="Christmas Memory 9">
+            </div>
+            <div class="photo-card">
+                <img src="https://raw.githubusercontent.com/TheBlackGay/myhappytime/main/pics/10.jpeg" alt="Christmas Memory 10">
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-button" id="prevButton">❮</button>
+                <button class="nav-button" id="nextButton">❯</button>
+            </div>
+
+            <div class="photo-counter">1 / 10</div>
+        </div>
+    </div>
+
+    <!-- 添加惊喜元素 -->
+    <div class="secret-gift" onclick="showGiftMessage()">🎁</div>
+    <div class="draggable-star" draggable="true">⭐</div>
+    <div class="secret-santa">🎅</div>
+    <div class="magic-snow" onclick="createMagicSnow()">❄️</div>
+    <div class="candy-cane" onclick="spinCandy()">🍬</div>
+    <div class="secret-bell" onclick="ringBell()">🔔</div>
+
+    <!-- 隐藏消息 -->
+    <div class="hidden-message" id="giftMessage">
+        🌟 Merry Christmas! 🎄<br>
+        愿这个圣诞节充满欢乐与温暖！
+    </div>
+
+    <script>
+        // 等待DOM完全加载
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded');
+            
+            // 初始化变量
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.photo-card');
+            const counter = document.querySelector('.photo-counter');
+            const prevButton = document.getElementById('prevButton');
+            const nextButton = document.getElementById('nextButton');
+            const draggableStar = document.querySelector('.draggable-star');
+            
+            console.log('Found elements:', {
+                slidesCount: slides.length,
+                prevButton: prevButton,
+                nextButton: nextButton
+            });
+
+            // 显示指定幻灯片
+            function showSlide(n) {
+                console.log('Showing slide:', n);
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (n + slides.length) % slides.length;
+                if (currentSlide < 0) currentSlide = slides.length - 1;
+                console.log('New current slide:', currentSlide);
+                slides[currentSlide].classList.add('active');
+                counter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            }
+
+            // 下一张幻灯片
+            function nextSlide() {
+                console.log('Next slide clicked');
+                showSlide(currentSlide + 1);
+            }
+
+            // 上一张幻灯片
+            function prevSlide() {
+                console.log('Previous slide clicked');
+                showSlide(currentSlide - 1);
+            }
+
+            // 直接在按钮上设置点击处理函数
+            if (prevButton) {
+                prevButton.onclick = function(e) {
+                    console.log('Prev button clicked');
+                    e.preventDefault();
+                    prevSlide();
+                };
+            }
+
+            if (nextButton) {
+                nextButton.onclick = function(e) {
+                    console.log('Next button clicked');
+                    e.preventDefault();
+                    nextSlide();
+                };
+            }
+
+            // 键盘控制
+            document.addEventListener('keydown', function(e) {
+                console.log('Key pressed:', e.key);
+                if (e.key === 'ArrowRight' || e.key === ' ') {
+                    e.preventDefault();
+                    nextSlide();
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    prevSlide();
+                }
+            });
+
+            // 触摸控制
+            let touchStartX = 0;
+            let touchEndX = 0;
+            const photoGallery = document.getElementById('photoGallery');
+            
+            if (photoGallery) {
+                photoGallery.addEventListener('touchstart', function(e) {
+                    console.log('Touch start');
+                    touchStartX = e.changedTouches[0].screenX;
+                }, false);
+
+                photoGallery.addEventListener('touchend', function(e) {
+                    console.log('Touch end');
+                    touchEndX = e.changedTouches[0].screenX;
+                    handleSwipe();
+                }, false);
+            }
+
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const swipeDistance = touchEndX - touchStartX;
+                console.log('Swipe distance:', swipeDistance);
+                
+                if (touchEndX < touchStartX - swipeThreshold) {
+                    nextSlide();
+                }
+                if (touchEndX > touchStartX + swipeThreshold) {
+                    prevSlide();
+                }
+            }
+
+            // 拖拽星星功能
+            if (draggableStar) {
+                draggableStar.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    const offsetX = touch.clientX - draggableStar.offsetLeft;
+                    const offsetY = touch.clientY - draggableStar.offsetTop;
+
+                    function moveAt(touch) {
+                        draggableStar.style.left = touch.clientX - offsetX + 'px';
+                        draggableStar.style.top = touch.clientY - offsetY + 'px';
+                        createStarTrail(touch.clientX, touch.clientY);
+                    }
+
+                    function onTouchMove(e) {
+                        moveAt(e.touches[0]);
+                    }
+
+                    document.addEventListener('touchmove', onTouchMove);
+
+                    draggableStar.addEventListener('touchend', function() {
+                        document.removeEventListener('touchmove', onTouchMove);
+                    }, { once: true });
+                });
+
+                // PC端拖拽支持
+                draggableStar.addEventListener('mousedown', function(e) {
+                    e.preventDefault();
+                    const offsetX = e.clientX - draggableStar.offsetLeft;
+                    const offsetY = e.clientY - draggableStar.offsetTop;
+
+                    function moveAt(e) {
+                        draggableStar.style.left = e.clientX - offsetX + 'px';
+                        draggableStar.style.top = e.clientY - offsetY + 'px';
+                        createStarTrail(e.clientX, e.clientY);
+                    }
+
+                    function onMouseMove(e) {
+                        moveAt(e);
+                    }
+
+                    document.addEventListener('mousemove', onMouseMove);
+
+                    document.addEventListener('mouseup', function() {
+                        document.removeEventListener('mousemove', onMouseMove);
+                    }, { once: true });
+                });
+            }
+
+            // 确保初始状态正确
+            showSlide(0);
+            console.log('Initial setup complete');
+        });
+
+        // 创建星星轨迹
+        function createStarTrail(x, y) {
+            for (let i = 0; i < 5; i++) {
+                const trail = document.createElement('div');
+                trail.textContent = '✨';
+                trail.style.position = 'fixed';
+                trail.style.left = x + 'px';
+                trail.style.top = y + 'px';
+                trail.style.fontSize = '1.5em';
+                trail.style.opacity = '0';
+                trail.style.transition = 'all 0.5s ease';
+                trail.style.transform = `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px)`;
+                document.body.appendChild(trail);
+
+                setTimeout(() => {
+                    trail.style.opacity = '1';
+                }, 0);
+
+                setTimeout(() => {
+                    trail.remove();
+                }, 500);
+            }
+        }
+
+        // 创建雪花效果
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.innerHTML = '❄';
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+            snowflake.style.opacity = Math.random();
+            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+            
+            document.body.appendChild(snowflake);
+
+            setTimeout(() => {
+                snowflake.remove();
+            }, 5000);
+        }
+
+        setInterval(createSnowflake, 200);
+
+        // 惊喜功能
+        function showGiftMessage() {
+            const message = document.getElementById('giftMessage');
+            message.style.display = 'block';
+            createFireworks(20);
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 3000);
+        }
+
+        // 创建烟花效果
+        function createFireworks(count) {
+            for (let i = 0; i < count; i++) {
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                firework.style.left = '50%';
+                firework.style.top = '50%';
+                firework.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                firework.style.setProperty('--dx', `${Math.random() * 400 - 200}px`);
+                firework.style.setProperty('--dy', `${Math.random() * 400 - 200}px`);
+                firework.style.animation = 'firework 1s ease-out forwards';
+                document.body.appendChild(firework);
+
+                setTimeout(() => {
+                    firework.remove();
+                }, 1000);
+            }
+        }
+
+        // 魔法雪花
+        function createMagicSnow() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff'];
+            for (let i = 0; i < 30; i++) {
+                const snow = document.createElement('div');
+                snow.innerHTML = '❄';
+                snow.style.position = 'fixed';
+                snow.style.left = Math.random() * 100 + 'vw';
+                snow.style.top = '-20px';
+                snow.style.fontSize = Math.random() * 20 + 10 + 'px';
+                snow.style.color = colors[Math.floor(Math.random() * colors.length)];
+                snow.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+                snow.style.textShadow = '0 0 5px white';
+                document.body.appendChild(snow);
+
+                setTimeout(() => {
+                    snow.remove();
+                }, 5000);
+            }
+        }
+
+        // 旋转糖果
+        let candySpins = 0;
+        function spinCandy() {
+            const candy = document.querySelector('.candy-cane');
+            candySpins++;
+            candy.style.transform = `rotate(${candySpins * 360}deg)`;
+            if (candySpins === 3) {
+                candySpins = 0;
+                createCandyShower();
+            }
+        }
+
+        function createCandyShower() {
+            const candies = ['🍬', '🍭', '🍪'];
+            for (let i = 0; i < 20; i++) {
+                const candy = document.createElement('div');
+                candy.textContent = candies[Math.floor(Math.random() * candies.length)];
+                candy.style.position = 'fixed';
+                candy.style.left = Math.random() * 100 + 'vw';
+                candy.style.top = '-20px';
+                candy.style.fontSize = '1.5em';
+                candy.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+                document.body.appendChild(candy);
+
+                setTimeout(() => {
+                    candy.remove();
+                }, 5000);
+            }
+        }
+
+        // 铃铛效果
+        function ringBell() {
+            const bell = document.querySelector('.secret-bell');
+            bell.classList.add('bell-ring');
+            
+            // 播放铃声
+            const audio = new Audio('data:audio/wav;base64,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qJrx4KOQjahZxWbcZgztj2c49nKmkId44S71j0c8eV9yDK6uPRzx5X18eDvjvQ6yKo9ZSS6l//8elePK/Lf//IInrOF/FvDoADYAGBMGb7FtErm5MXMlmPAJQVgWta7Zx2go+8xJ0UiCb8LHHdftWyLJE0QIAIsI+UbXu67dZMjmgDGCGl1H+vpF4NSDckSIkk7Vd+sxEhBQMRU8j/12UIRhzSaUdQ+rQU5kGeFxm+hb1oh6pWWmv3uvmReDl0UnvtapVaIzo1jZbf/pD6ElLqSX+rUmOQNpJFa/r+sa4e/pBlAABoAAAAA3CUgShLdGIxsY7AUABPRrgCABdDuQ5GC7DqPQCgbbJUAoRSUj+NIEig0YfyWUho1VBBBA//uQZB4ABZx5zfMakeAAAAmwAAAAF5F3P0w9GtAAACfAAAAAwLhMDmAYWMgVEG1U0FIGCBgXBXAtfMH10000EEEEEECUBYln03TTTdNBDZopopYvrTTdNa325mImNg3TTPV9q3pmY0xoO6bv3r00y+IDGid/9aaaZTGMuj9mpu9Mpio1dXrr5HERTZSmqU36A3CumzN/9Robv/Xx4v9ijkSRSNLQhAWumap82WRSBUqXStV/YcS+XVLnSS+WLDroqArFkMEsAS+eWmrUzrO0oEmE40RlMZ5+ODIkAyKAGUwZ3mVKmcamcJnMW26MRPgUw6j+LkhyHGVGYjSUUKNpuJUQoOIAyDvEyG8S5yfK6dhZc0Tx1KI/gviKL6qvvFs1+bWtaz58uUNnryq6kt5RzOCkPWlVqVX2a/EEBUdU1KrXLf40GoiiFXK///qpoiDXrOgqDR38JB0bw7SoL+ZB9o1RCkQjQ2CBYZKd/+VJxZRRZlqSkKiws0WFxUyCwsKiMy7hUVFhIaCrNQsKkTIsLivwKKigsj8XYlwt/WKi2N4d//uQRCSAAjURNIHpMZBGYiaQPSYyAAABLAAAAAAAACWAAAAApUF/Mg+0aohSIRobBAsMlO//Kk4soosy1JSFRYWaLC4qZBYWFRGZdwqKiwkNBVmoWFSJkWFxX4FFRQWR+LsS4W/rFRb/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////VEFHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAU291bmRib3kuZGUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMjAwNGh0dHA6Ly93d3cuc291bmRib3kuZGUAAAAAAAAAACU=');
+            audio.play();
+
+            setTimeout(() => {
+                bell.classList.remove('bell-ring');
+            }, 500);
+        }
+
+        // 添加触摸滑动支持
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        document.querySelector('.photo-gallery').addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, false);
+
+        document.querySelector('.photo-gallery').addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, false);
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // 左滑
+                nextSlide();
+            }
+            if (touchEndX > touchStartX + swipeThreshold) {
+                // 右滑
+                prevSlide();
+            }
+        }
+
+        // 优化拖拽星星的触摸支持
+        const star = document.querySelector('.draggable-star');
+        
+        star.addEventListener('touchstart', e => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const offsetX = touch.clientX - star.offsetLeft;
+            const offsetY = touch.clientY - star.offsetTop;
+
+            function moveAt(touch) {
+                star.style.left = touch.clientX - offsetX + 'px';
+                star.style.top = touch.clientY - offsetY + 'px';
+                createStarTrail(touch.clientX, touch.clientY);
+            }
+
+            function onTouchMove(e) {
+                moveAt(e.touches[0]);
+            }
+
+            document.addEventListener('touchmove', onTouchMove);
+
+            star.addEventListener('touchend', () => {
+                document.removeEventListener('touchmove', onTouchMove);
+            }, { once: true });
+        });
+
+        // 优化点击/触摸效果
+        document.querySelectorAll('.decoration, .nav-button').forEach(element => {
+            element.addEventListener('touchstart', e => {
+                e.target.style.transform = 'scale(0.95)';
+            });
+
+            element.addEventListener('touchend', e => {
+                e.target.style.transform = '';
+            });
+        });
+    </script>
+</body>
+</html>
